@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 namespace Property4Rent.API.Domain.Entities
 {
     public abstract class BaseEntity
-    { 
+    {
+        [Key]
         public Guid Id { get; set; }
         public Guid? CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }

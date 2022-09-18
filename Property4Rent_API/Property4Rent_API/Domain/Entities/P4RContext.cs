@@ -27,6 +27,21 @@ namespace Property4Rent.API.Domain.Entities
         public virtual DbSet<Role> Role { get; set; } 
         public virtual DbSet<User> User { get; set; } 
         public virtual DbSet<Language> Language { get; set; } 
+        //
+        public virtual DbSet<Country> Country { get; set; }
+        public virtual DbSet<State> State { get; set; }
+        public virtual DbSet<City> City { get; set; } 
+        
+        public virtual DbSet<Place> Place { get; set; }
+        public virtual DbSet<PlacePhoto> PlacePhoto { get; set; }
+        public virtual DbSet<Property> Property { get; set; }
+        public virtual DbSet<PropertyType> PropertyType { get; set; }
+        public virtual DbSet<Utility> Utility { get; set; }
+        public virtual DbSet<PropertyUtilities> PropertyUtilities { get; set; }
+        public virtual DbSet<PropertyNearBy> PropertyNearBy { get; set; }
+        public virtual DbSet<PropertyPhoto> PropertyPhoto { get; set; }
+
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -34,7 +49,7 @@ namespace Property4Rent.API.Domain.Entities
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
+        { 
             modelBuilder.Entity<Comment>(entity =>
             {
                 entity.HasNoKey();
@@ -167,7 +182,59 @@ namespace Property4Rent.API.Domain.Entities
                 entity.Property(e => e.Name).HasMaxLength(100);
 
             });
+
+            modelBuilder.Entity<Country>(entity => {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.IsPublic).HasDefaultValue(true); 
+            });
+
+            modelBuilder.Entity<State>(entity => {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.IsPublic).HasDefaultValue(true);
+            });
+
+            modelBuilder.Entity<City>(entity => {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.IsPublic).HasDefaultValue(true);
+            });
+            modelBuilder.Entity<PlacePhoto>(entity => {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.IsPublic).HasDefaultValue(true);
+            });
+
+            modelBuilder.Entity<Place>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.IsPublic).HasDefaultValue(true);
+            });
              
+
+            modelBuilder.Entity<PlacePhoto>(entity => {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.IsPublic).HasDefaultValue(true);
+            });
+
+            modelBuilder.Entity<PropertyType>(entity => {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.IsPublic).HasDefaultValue(true);
+            });
+            modelBuilder.Entity<PropertyUtilities>(entity => {
+                entity.Property(e => e.Id).ValueGeneratedNever(); 
+            });
+            modelBuilder.Entity<Property>(entity => {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+            });
+            modelBuilder.Entity<PropertyPhoto>(entity => {
+                entity.Property(e => e.Id).ValueGeneratedNever(); 
+            });
+            modelBuilder.Entity<PropertyNearBy>(entity => {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+            });
+            modelBuilder.Entity<Utility>(entity => {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+            });
+
             OnModelCreatingPartial(modelBuilder);
         }
 

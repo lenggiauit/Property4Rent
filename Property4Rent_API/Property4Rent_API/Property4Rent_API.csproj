@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>Property4Rent.API</AssemblyName>
+    <RootNamespace>Property4Rent.API</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
