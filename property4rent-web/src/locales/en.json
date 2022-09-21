@@ -92,5 +92,7 @@
     "back_to_select_template": "Back to select template",
     "preview_template": "Preview",
     "ErrorMsg" : "Error",
-    "NotExistEmailMsg" : "User doesn't exist in our system. Please click Register link to SignUp"
+    "NotExistEmailMsg" : "User doesn't exist in our system. Please click Register link to SignUp",
+    "nav_yourproperty" : "Your Property",
+    "nav_findahouse": "Find a house"
 }
