@@ -21,8 +21,7 @@ import { toast } from 'react-toastify';
 const appSetting: AppSetting = require('../../appSetting.json');
 
 interface FormValues {
-    fullName: any,
-    jobTitle: any,
+    fullName: any, 
     phone: any,
     address: any,
     email: any
@@ -40,7 +39,7 @@ const Profile: React.FC = (): ReactElement => {
     let currentUser = getLoggedUser();
     const [currentAvatar, setcurrentAvatar] = useState<string>(currentUser?.avatar ?? GlobalKeys.NoAvatarUrl);
     const [isEditMode, setIsEditMode] = useState<boolean>(false);
-    let initialValues: FormValues = { fullName: currentUser?.fullName, jobTitle: currentUser?.jobTitle, phone: currentUser?.phone, address: currentUser?.address, email: currentUser?.email };
+    let initialValues: FormValues = { fullName: currentUser?.fullName, phone: currentUser?.phone, address: currentUser?.address, email: currentUser?.email };
     let initialAvatarValues: FormAvatarValues = { file: '' };
     const [updateProfile, { isLoading, data, error }] = useUserUpdateProfileMutation();
     const [updateAvatar, updateAvatarStatus] = useUserUpdateAvatarMutation();
@@ -51,9 +50,7 @@ const Profile: React.FC = (): ReactElement => {
     const validationSchema = () => {
         return Yup.object().shape({
             fullName: Yup.string()
-                .required(dictionaryList[locale]["RequiredField"]),
-            jobTitle: Yup.string()
-                .required(dictionaryList[locale]["RequiredField"]),
+                .required(dictionaryList[locale]["RequiredField"]), 
             phone: Yup.string()
                 .required(dictionaryList[locale]["RequiredField"]),
             address: Yup.string()
@@ -84,7 +81,7 @@ const Profile: React.FC = (): ReactElement => {
         });
     }
     const handleOnSubmit = (values: FormValues, actions: FormikHelpers<FormValues>) => {
-        payload = { fullName: values.fullName, email: values.email, jobTitle: values.jobTitle, address: values.address, phone: values.phone }
+        payload = { fullName: values.fullName, email: values.email, address: values.address, phone: values.phone }
         updateProfile({ payload: payload });
     };
 
@@ -109,8 +106,7 @@ const Profile: React.FC = (): ReactElement => {
             updatedUser.fullName = payload.fullName;
             updatedUser.email = payload.email;
             updatedUser.phone = payload.phone;
-            updatedUser.address = payload.address;
-            updatedUser.jobTitle = payload.jobTitle;
+            updatedUser.address = payload.address; 
             setLoggedUser(updatedUser);
             setIsEditMode(false);
             toast.success(dictionaryList[locale]["UpdatedSuccessfully"]);
@@ -152,17 +148,17 @@ const Profile: React.FC = (): ReactElement => {
                                         <div className="d-flex flex-column align-items-center text-center">
                                             <div className="profile-avatar-container">
                                                 <img src={currentAvatar} alt={currentUser?.fullName} className="rounded-circle profile-avatar-img" width="150" />
-                                                <div className="profile-avatar-edit-link-container">
-                                                    <a className="profile-avatar-edit-link text-primary" href="#" onClick={handleUploadFile}>Edit</a>
+                                                
+                                            </div>
+                                            <div className="profile-avatar-edit-link-container1">
+                                                    <a className="profile-avatar-edit-link1 text-primary" href="#" onClick={handleUploadFile}>Edit Avartar</a>
                                                     <div className="hide">
                                                         <input type="file" className="hide" ref={inputFileUploadRef} onChange={handleSelectFile} />
                                                     </div>
-                                                </div>
                                             </div>
                                             <div className="mt-3">
                                                 <h4>{currentUser && <> {currentUser.fullName} </>}</h4>
-                                                <p className="text-warning mb-1">#{currentUser?.role.name}</p>
-                                                <p className="text-success mb-1">{currentUser?.jobTitle}</p>
+                                                <p className="text-warning mb-1">#{currentUser?.role.name}</p> 
                                                 <p className="text-muted font-size-sm">{currentUser && <> {currentUser.address} </>}</p>
                                             </div>
                                         </div>
@@ -195,28 +191,7 @@ const Profile: React.FC = (): ReactElement => {
                                                         </>}
                                                     </div>
                                                 </div>
-                                                <hr />
-                                                <div className="row">
-                                                    <div className="col-sm-3">
-                                                        <h6 className="mb-0"><Translation tid="JobTitle" /></h6>
-                                                    </div>
-                                                    <div className="col-sm-9 profile-card-item">
-                                                        {!isEditMode && <>
-                                                            {currentUser?.jobTitle}
-                                                        </>}
-                                                        {isEditMode && <>
-                                                            <div className="form-group-profile">
-                                                                <Field type="text" className="form-control form-control-sm" name="jobTitle" />
-                                                                <ErrorMessage
-                                                                    name="jobTitle"
-                                                                    component="div"
-                                                                    className="alert alert-field alert-danger"
-                                                                />
-                                                            </div>
-                                                        </>}
-                                                    </div>
-                                                </div>
-                                                <hr />
+                                                <hr /> 
                                                 <div className="row">
                                                     <div className="col-sm-3">
                                                         <h6 className="mb-0"><Translation tid="Email" /></h6>

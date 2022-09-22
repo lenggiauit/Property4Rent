@@ -1,6 +1,6 @@
 import { CreatedBy } from "./createdBy";
 
-export type TemplateType =
+export type PropertyType =
     {
         id: any,
         name: any,

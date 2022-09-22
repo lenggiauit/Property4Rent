@@ -1,6 +1,4 @@
-import { CreatedBy } from "./createdBy";
-import { ProjectRole } from "./projectRole";
-import { ProjectStatus } from "./projectStatus";
+import { CreatedBy } from "./createdBy"; 
 
 export type Member =
     {
@@ -10,6 +8,5 @@ export type Member =
         jobTitle?: any,
         avatar?: any,
         phone?: any,
-        address?: any,
-        role: ProjectRole,
+        address?: any, 
     }

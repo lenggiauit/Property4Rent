@@ -9,17 +9,29 @@ export const LanguageSelector: React.FC = () => {
     const handleLanguageChange: React.MouseEventHandler<HTMLAnchorElement> = (e) => {
         e.preventDefault();
         var selectLang = (e.target as HTMLAnchorElement).id;
-        window.localStorage.setItem(GlobalKeys.LanguageSelectedKey, selectLang);
-        setLocale(selectLang);
-        console.log(selectLang);
+        if (selectLang) { 
+            window.localStorage.setItem(GlobalKeys.LanguageSelectedKey, selectLang);
+            setLocale(selectLang);
+            console.log(selectLang);
+        }
     }
     return (
-        <>
-            <bt.NavDropdown title={localeOptions[locale]} id="languageSelector">
-                {Object.entries(localeOptions).map(([id, name]) => (
-                    <bt.NavDropdown.Item key={id} id={id} onClick={handleLanguageChange}>{name}</bt.NavDropdown.Item>
-                ))}
-            </bt.NavDropdown>
+        <> 
+            <li className="nav-item dropdown">
+                <a className="nav-link" role="button" data-bs-toggle="dropdown" data-toggle="dropdown" aria-expanded="false"
+                    href="#">
+                    {localeOptions[locale]}
+                </a>
+                <ul className="dropdown-menu">
+                    {Object.entries(localeOptions).map(([id, name]) => (
+                        <li key={id} >
+                            <a id={id} className="dropdown-item" href="#" onClick={handleLanguageChange}> 
+                                {name}
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            </li>
         </>
     );
 };

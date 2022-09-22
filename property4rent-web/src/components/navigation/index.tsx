@@ -21,105 +21,139 @@ const Navigation: React.FC<Props> = ({ isPublic, navCssClass, currentUser }) => 
     const signalRHubConnection = null;
     const [messageCount, setMessageCount] = useState<Number>(0);
     // Start onload 
-     useEffect(() => {
-        StartSignalRHubConnection(); 
+    useEffect(() => {
+        StartSignalRHubConnection();
         return () => {
             StopSignalRHubConnection();
         }
     }, []);
-    useEffect(() => { 
+    useEffect(() => {
         setTimeout(() => {
-       const signalRHubConnection = getSignalRHubConnection(); 
-        if (signalRHubConnection.state === 'Connected') {
-            const currentUser = getLoggedUser();
-            if(currentUser !=null){
-                signalRHubConnection.send("checkNewMessages", currentUser.id);
-                console.log("checkNewMessages");
+            const signalRHubConnection = getSignalRHubConnection();
+            if (signalRHubConnection.state === 'Connected') {
+                const currentUser = getLoggedUser();
+                if (currentUser != null) {
+                    signalRHubConnection.send("checkNewMessages", currentUser.id);
+                    console.log("checkNewMessages");
+                }
+                signalRHubConnection.on("onHaveNewMessages", (count) => {
+                    setMessageCount(count);
+                    console.log(count);
+                });
             }
-            signalRHubConnection.on("onHaveNewMessages", (count) => {
-                setMessageCount(count);
-                console.log(count);
-            });
-        } }, 1000);
+        }, 1000);
 
-        
+
     }, [signalRHubConnection]);
     return (
         <>
-            <nav className={"navbar navbar-expand-lg navbar-dark " + (navCssClass ? navCssClass : "")}>
-                <div className="container">
 
-                    <div className="navbar-left mr-4">
-                        <button className="navbar-toggler" type="button"><span className="navbar-toggler-icon"></span></button>
-                        <a className="navbar-brand" href="/">
-                            <AnimationLogo width={45} height={45} />
-                        </a>
-                    </div>
-                    <section className="navbar-mobile ">
-                        <span className="navbar-divider d-mobile-none"></span>
-                       
-                        <ul className="nav nav-navbar nav-text-normal mr-auto">
-                            {/* <li>
-                                <a className={`nav-link ${(location.pathname == '/') ? "active" : ""}`} href="/"><Translation tid="nav_home" /></a>
-                            </li>  */}
+            <nav className="navbar navbar-expand-lg navbar-dark">
+                <div className="container">
+                    <a className="navbar-brand" href="/">
+                        <AnimationLogo width={45} height={45} />
+                    </a>
+                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
+                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                        <span className="navbar-divider d-mobile-none"></span> 
+                        <ul className="nav nav-navbar nav-text-normal mr-auto"> 
                             <li>
                                 <a className={`nav-link ${(location.pathname == '/findahouse') ? "active" : ""}`} href="/"><Translation tid="nav_findahouse" /></a>
-                            </li> 
-
+                            </li>
+                            <li>
+                                <a className={`nav-link ${(location.pathname == '/findanapartment') ? "active" : ""}`} href="/"><Translation tid="nav_findanaprtment" /></a>
+                            </li>
+                            <li>
+                                <a className={`nav-link ${(location.pathname == '/findaroom') ? "active" : ""}`} href="/"><Translation tid="nav_findaroom" /></a>
+                            </li>
                         </ul>
                         <div className="justify-content-end">
-                           <ul className="nav nav-navbar nav-text-normal mr-auto ">
-                            
-                            {currentUser != null
-                                && (hasPermissions([PermissionKeys.CreateTemplateType, PermissionKeys.GetTemplate, PermissionKeys.GetTemplateType, PermissionKeys.UploadTemplate]))
-                                && <>
+                            <ul className="nav nav-navbar nav-text-normal mr-auto navbar-right"> 
+                                {currentUser != null
+                                    && (hasPermissions([PermissionKeys.CreateEditPropertyType]))
+                                    && <>
+                                        <li className="nav-item dropdown">
+                                            <a className={`nav-link ${(location.pathname.indexOf('admin') != -1) ? "active" : ""}`} 
+                                                role="button" data-bs-toggle="dropdown" data-toggle="dropdown" aria-expanded="false"
+                                                href="#">
+                                                <i className="bi bi-gear-fill" style={{ fontSize: 24 }}></i> 
+                                            </a>
+                                            <ul className="dropdown-menu">
+                                                <li><a className="dropdown-item" href="/admin/propertytype">Property Type</a></li>
+                                                <li><a className="dropdown-item" href="/admin/propertylist">Property List</a></li>
+                                                <li><a className="dropdown-item" href="/admin/userlist">User List</a></li>
+                                            </ul>
+                                        </li>
+                                    </>
+                                } 
+                                {currentUser != null && <>
                                     <li className="nav-item">
-                                        <a className={`nav-link ${(location.pathname.indexOf('admin') != -1) ? "active" : ""}`} href="#"><Translation tid="nav_admin" /><span className="arrow"></span></a>
-                                        <nav className="nav">
-                                            <a className="nav-link" href="/admin/propertytype">Property Type</a>
-                                            <a className="nav-link" href="/admin/propertylist">Property List</a>
-                                            <a className="nav-link" href="/admin/userlist">User List</a>
-                                        </nav>
+                                        <a className={`nav-link ${(location.pathname.indexOf('notification') != -1) ? "active" : ""}`} href="/notification">
+                                            <i className="bi bi-bell" style={{ fontSize: 24 }}></i>
+                                        </a>
                                     </li>
-                                </>
-                            }
- 
-                           {currentUser != null && <>
-                                <li className="nav-item">
-                                    <a className={`nav-link ${(location.pathname.indexOf('notification') != -1) ? "active" : ""}`} href="/notification">
-                                        <i className="bi bi-bell" style={{fontSize: 24}}></i>
-                                    </a>
-                                </li>
-                                <li className="nav-item">  
+                                    <li className="nav-item">
                                         <a className={`nav-link ${(location.pathname.indexOf('messages') != -1) ? "active" : ""}`} href="/messages">
-                                            
-                                        <i className="bi bi-chat-text" style={{fontSize: 24}}></i>
 
-                                        {messageCount == 0 ? "" : <> ({ messageCount})</>  }</a>
-                                </li> 
-                                <li className="nav-item">
-                                    <a className={`nav-link ${(location.pathname.indexOf('user') != -1) ? "active" : ""}`} href="#"> 
-                                    <i className="bi bi-person-circle" style={{fontSize: 24}}></i></a>
-                                    <nav className="nav">
-                                        <a className="nav-link" href="/profile"><Translation tid="nav_profile" /> </a>
-                                        <a className="nav-link" href="/propertylist">Your Property</a>
-                                        <a className="nav-link" href="#" onClick={() => logout()}><Translation tid="nav_logout" /></a>
-                                    </nav>
-                                </li> 
-                            </>
-                            }
-                           </ul> 
-                           </div>
-                            {isPublic && currentUser == null && <> 
+                                            <i className="bi bi-chat-text" style={{ fontSize: 24 }}></i>
+
+                                            {messageCount == 0 ? "" : <> ({messageCount})</>}</a>
+                                    </li>
+
+                                    <li className="nav-item dropdown">
+                                        <a className={`nav-link ${((location.pathname.indexOf('profile') != -1) ||
+                                            (location.pathname.indexOf('propertylist') != -1) ||
+                                            (location.pathname.indexOf('profile') != -1)
+                                        ) ? "active" : ""}`}
+
+                                            role="button" data-bs-toggle="dropdown" data-toggle="dropdown" aria-expanded="false"
+                                            href="#">
+                                            <i className="bi bi-person-circle" style={{ fontSize: 24 }}></i>
+                                        </a>
+                                        <ul className="dropdown-menu">
+                                            <li><h5>{currentUser.email}</h5></li>
+                                            <li><hr className="dropdown-divider" /></li>
+                                            <li>
+                                                <a className="dropdown-item" href="/profile">
+                                                    <i className="bi bi-person-lines-fill" style={{ fontSize: 18 }}></i>
+                                                    <span className="ml-2"><Translation tid="nav_profile" /></span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a className="dropdown-item" href="/yourproperty">
+                                                    <i className="bi bi-house-fill" style={{ fontSize: 18 }}></i>
+                                                    <span className="ml-2">Your Property </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a className="dropdown-item" href="/yourappointment">
+                                                    <i className="bi bi-calendar-check-fill" style={{ fontSize: 16 }}></i>
+                                                    <span className="ml-2">Your appointment </span>
+                                                </a>
+                                            </li>
+
+                                            <li><hr className="dropdown-divider" /></li>
+                                            <li>
+                                                <a className="dropdown-item" href="#" onClick={() => logout()}>
+                                                    <i className="bi bi-box-arrow-right" style={{ fontSize: 18 }}></i>
+                                                    <span className="ml-2"><Translation tid="nav_logout" /></span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <LanguageSelector />
+                                </>
+                                }
+                            </ul>
+                        </div>
+                        {isPublic && currentUser == null && <>
                             <a className="btn btn-sm btn-success" href="/login"><Translation tid="nav_login" /></a> 
-                            <span className="navbar-divider d-mobile-none"></span>
-                            </>}
-                         
-                        <LanguageSelector />
-                    </section>
-
+                        </>} 
+                    </div>
                 </div>
-            </nav>
+            </nav> 
         </>
     )
 };

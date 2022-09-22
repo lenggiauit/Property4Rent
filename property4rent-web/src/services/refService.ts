@@ -1,7 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { ApiRequest, ApiResponse, AppSetting } from "../types/type";
-import { getLoggedUser } from '../utils/functions';
-import { ProjectStatus } from './models/projectStatus';
+import { getLoggedUser } from '../utils/functions'; 
 
 let appSetting: AppSetting = require('../appSetting.json');
 
@@ -20,21 +19,12 @@ export const RefService = createApi({
         },
     }),
     endpoints: (builder) => ({
-        GetProjectStatus: builder.query<ApiResponse<ProjectStatus[]>, ApiRequest<{}>>({
-            query: (payload) => ({
-                url: 'Ref/GetProjectStatus',
-                method: 'post',
-                body: payload
-            }),
-            transformResponse(response: ApiResponse<ProjectStatus[]>) {
-                return response;
-            },
-        }),
+        
 
     })
 });
 
-export const { useGetProjectStatusQuery } = RefService;
+export const {   } = RefService;
 
 
 

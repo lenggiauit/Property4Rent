@@ -1,4 +1,3 @@
-import { ProjectStatus } from "../services/models/projectStatus";
 import { GlobalKeys } from "./constants";
 import { decrypt } from "./crypter";
 
@@ -7,7 +6,7 @@ export const getProjectStatus = async () => {
         const projectStatus = localStorage.getItem(GlobalKeys.ProjectStatus);
 
         if (projectStatus) {
-            return <ProjectStatus[]>JSON.parse(JSON.stringify(decrypt(projectStatus)));
+            //return <ProjectStatus[]>JSON.parse(JSON.stringify(decrypt(projectStatus)));
         }
         else {
             // fetch(appSetting.BaseUrl + "account/LoginWithGoogle?access_token=" + access_token)

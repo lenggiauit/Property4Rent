@@ -13,9 +13,6 @@ export enum Locale {
     VietNam = 'Việt Nam'
 }
 
-export enum PermissionKeys {
-    CreateTemplateType = "CreateTemplateType",
-    UploadTemplate = "UploadTemplate",
-    GetTemplateType = "GetTemplateType",
-    GetTemplate = "GetTemplate",
+export enum PermissionKeys { 
+    CreateEditPropertyType = "CreateEditPropertyType"
 }

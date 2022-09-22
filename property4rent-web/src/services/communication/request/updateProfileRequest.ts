@@ -1,7 +1,6 @@
 
 export type UpdateProfileRequest = {
-    fullName: any,
-    jobTitle: any,
+    fullName: any, 
     phone: any,
     email: any,
     address: any
